@@ -43,7 +43,6 @@ const  Data = (props) => {
                 {data.sra 
                 ? 
                 <div>SRA: {data.sra}</div> 
-              
                 : 
                 <div>SRA: </div>}
                 {heatMap ? 
