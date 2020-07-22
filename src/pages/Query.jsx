@@ -87,14 +87,13 @@ const Query = (props) => {
     }, [queryTypeStatic, queryValueStatic]);
 
     return (
-        <div className="flex absolute w-screen h-screen justify-center">
+        <div className="flex flex-row justify-center">
             <img src="/serratus.jpg" alt="serratus mountain" className="hidden sm:block opacity-75 sm:fixed" style={{ objectFit: 'cover', minWidth: '100vh', minHeight: '100vh' }} />
-            <div className="flex flex-col justify-center items-center w-full z-10 rounded-lg p-1
-                sm:shadow-2xl
-                lg:w-3/4 lg:mt-6 lg:bg-blue-400 lg:bg-opacity-25 lg:border lg:border-gray-600">
-                <div className="w-full lg:w-5/6 bg-gray-400 border rounded-lg border-gray-600 sm:shadow-xl p-1 z-20 m-1">
-                    <div className="flex flex-col items-center z-10 mt-2">
-                        <div className="items-center z-10">
+            <div className="w-full flex flex-col items-center p-1 z-10
+                lg:w-3/4 lg:my-2 lg:bg-blue-400 lg:bg-opacity-25 lg:border lg:border-gray-600 lg:rounded-lg lg:shadow-2xl">
+                <div className="w-full lg:w-5/6 m-1 p-1 bg-gray-400 border rounded-lg border-gray-600 sm:shadow-xl">
+                    <div className="flex flex-col items-center py-1">
+                        <div>
                             <div>
                                 <InputOption className="inline mx-2" value="family" displayText="Family" checked={searchType === "family"} onChange={queryTypeChange} />
                                 <InputOption className="inline mx-2" value="genbank" displayText="GenBank" checked={searchType === "genbank"} onChange={queryTypeChange} />
@@ -104,28 +103,22 @@ const Query = (props) => {
                             <button onClick={() => loadQueryPage(searchValue)} className="rounded bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4" type="submit">Go</button>
                         </div>
                     </div>
-                    <div className="w-full text-center">
-                        {queryValueStatic ?
-                            <div>
-                                <div className="text-xl font-bold">{queryValueStatic}</div>
-                                {pageTitle ?
-                                    <div className="text-lg italic">{pageTitle}</div> : null}
-                            </div> : null
-                        }
-                    </div>
                     {queryValueStatic ?
-                        <div className="flex justify-center items-center my-2">
-                            {getPageLinks(queryTypeStatic, queryValueCorrected)}
+                        <div className="w-full text-center">
+                            <div className="text-xl font-bold">{queryValueStatic}</div>
+                            {pageTitle ?
+                                <div className="text-lg italic">{pageTitle}</div> : null}
                         </div> : null
                     }
+                    {queryValueStatic ? getPageLinks(queryTypeStatic, queryValueCorrected) : null}
                 </div>
-                <div className="w-full lg:w-5/6 flex flex-col flex-1 justify-center items-center bg-gray-400 border rounded-lg border-gray-600 shadow-xl m-1 sm:px-12">
-                    <div className="w-full flex flex-col overflow-y-auto" style={{ height: 600 }} id="style-2">
-                        {queryValueStatic ?
-                            <QueryResult type={queryTypeStatic} value={queryValueStatic} dataPromise={dataPromise} /> :
-                            <QueryIntro />
-                        }
-                    </div>
+                <div className="w-full lg:w-5/6 m-1 p-4 bg-gray-400 border rounded-lg border-gray-600 sm:shadow-xl sm:px-12
+                    overflow-y-auto"
+                    style={{ height: 700 }}>
+                    {queryValueStatic ?
+                        <QueryResult type={queryTypeStatic} value={queryValueStatic} dataPromise={dataPromise} /> :
+                        <QueryIntro />
+                    }
                 </div>
             </div>
         </div>
