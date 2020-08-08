@@ -29,6 +29,7 @@ export default (props) => {
     const [isLoaded, setIsLoaded] = React.useState(false);
     const [family, setFamily] = React.useState("Coronaviridae");
     const [selectValues, setSelectValues] = React.useState([]);
+    const [filterParams, setFilterParams] = React.useState({family: "", score: [], pctid: []});
 
     React.useEffect(() => {
         data = allFamilyData[family];
@@ -36,7 +37,8 @@ export default (props) => {
             drawExploreFamilyChart("#chart", data);
             setIsLoaded(true);
         }
-        updateChart();
+        var filtered = updateChart();
+        setFilterParams({...filtered})
         sliderX.range(75, 100);
         sliderZ.range(25, 100);
         updateYLims();
@@ -238,7 +240,16 @@ function getDataByZStack(dataFiltered) {
         .value((d, key) => d.ZtoY[key])(dataByX);
 }
 
-function updateChart(transitionDuration=0) {
+function setFilterParams(score, pctid) {
+    const filterParams = {
+        score,
+        pctid
+    };
+    return filterParams;
+}
+
+function updateChart(transitionDuration=0) { 
+    var filterParams = setFilterParams(zLims, xLims);   
     var dataFiltered = data.filter((d) => {
         return (
             (d[xColumn] >= xLims[0]) &&
@@ -258,4 +269,5 @@ function updateChart(transitionDuration=0) {
         chart.data(dataByZStackFiltered).transition().duration(transitionDuration)
             .attr("d", areaGen);
     }
+    return filterParams;
 }
